@@ -14,7 +14,7 @@ function clearGlobalSecondaryIndexes(GlobalSecondaryIndexes) {
 }
 
 export default async function copyTable(fromTable, toTable, environmentFrom, environmentTo) {
-  const { Table } = await environment.db
+  const { Table } = await environmentFrom.db
     .describeTable({ TableName: fromTable })
     .promise();
 
@@ -31,5 +31,5 @@ export default async function copyTable(fromTable, toTable, environmentFrom, env
     },
   };
 
-  return environment.db.createTable(newTableDescription).promise();
+  return environmentTo.db.createTable(newTableDescription).promise();
 }
