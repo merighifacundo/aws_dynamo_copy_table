@@ -43,7 +43,18 @@ const questions = [
 	
 ];
 
-export default async function askDynamoEnvironment() {
+export async function askSameEnvironment() {
+	const awsEnvironment = await inquirer.prompt([	{
+		type: 'list',
+		name: 'sameEnvironment',
+		message: 'Do you want to use the same AWS environment for the destination Table?',
+		choices: ['Yes', 'No']
+	}]);
+	return awsEnvironment;
+}
+
+export default async function askDynamoEnvironment(message) {
+	console.log(`\n\n${message}\n\n`);
 	const awsEnvironment = await inquirer.prompt(questions);
 	AWS.config.update(awsEnvironment);
 	let db = new AWS.DynamoDB();

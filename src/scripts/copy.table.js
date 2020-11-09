@@ -13,12 +13,12 @@ function clearGlobalSecondaryIndexes(GlobalSecondaryIndexes) {
   });
 }
 
-export default async function copyTable(fromTable, toTable, environment) {
+export default async function copyTable(fromTable, toTable, environmentFrom, environmentTo) {
   const { Table } = await environment.db
     .describeTable({ TableName: fromTable })
     .promise();
 
-  const { KeySchema, AttributeDefinitions, GlobalSecondaryIndexes } = Table;
+  const { KeySchema, AttributeDefinitions, GlobalSecondaryIndexes, ProvisionedThroughput } = Table;
 
   const newTableDescription = {
     TableName: toTable,
@@ -26,8 +26,8 @@ export default async function copyTable(fromTable, toTable, environment) {
     AttributeDefinitions,
     GlobalSecondaryIndexes: clearGlobalSecondaryIndexes(GlobalSecondaryIndexes),
     ProvisionedThroughput: {
-      ReadCapacityUnits: 5,
-      WriteCapacityUnits: 5,
+      ReadCapacityUnits: ProvisionedThroughput.ReadCapacityUnits,
+      WriteCapacityUnits: ProvisionedThroughput.WriteCapacityUnits,
     },
   };
 
