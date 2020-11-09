@@ -39,7 +39,19 @@ const questions = [
 		name: 'region',
 		message: 'What region do you want to operate?',
 		choices: Object.keys(awsRegions)
-	},
+  },
+  {
+		type: 'list',
+		name: 'customEndpoint',
+		message: 'Do you have a custom endpoint?',
+		choices: ['Yes', 'No']
+  },
+  {
+    type: 'input',
+    name: 'endpointUrl',
+    message: 'Enter the URL for the endpoint',
+    when: (answers) => answers.customEndpoint === 'Yes'
+ }
 	
 ];
 
@@ -56,9 +68,18 @@ export async function askSameEnvironment() {
 export default async function askDynamoEnvironment(message) {
 	console.log(`\n\n${message}\n\n`);
 	const awsEnvironment = await inquirer.prompt(questions);
-	AWS.config.update(awsEnvironment);
-	let db = new AWS.DynamoDB();
-	const data = await db.listTables({}).promise();
+  AWS.config.update({
+    accessKeyId: awsEnvironment.accessKeyId,
+    secretAccessKey: awsEnvironment.secretAccessKey,
+    region: awsEnvironment.region
+
+  });
+  let config = {};
+  if (awsEnvironment.customEndpoint === 'Yes') {
+    config.endpoint = awsEnvironment.endpointUrl;
+  }
+  let db = new AWS.DynamoDB(config);
+  const data = await db.listTables({}).promise();
 	return {db: db, tables: data};
 }
 

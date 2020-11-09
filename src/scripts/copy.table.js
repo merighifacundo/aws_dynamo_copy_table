@@ -1,4 +1,7 @@
 function clearGlobalSecondaryIndexes(GlobalSecondaryIndexes) {
+	if (!GlobalSecondaryIndexes) {
+		return null;
+	}
   return GlobalSecondaryIndexes.map((index) => {
     const { IndexName, KeySchema, Projection, ProvisionedThroughput } = index;
     return {
