@@ -1,8 +1,9 @@
 {
   "name": "aws_dynamo_copy_table",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple copy table script",
   "main": "index.js",
+  "bin": "./index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
