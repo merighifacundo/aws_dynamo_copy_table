@@ -66,7 +66,7 @@ export async function askSameEnvironment() {
 }
 
 export default async function askDynamoEnvironment(message) {
-	console.log(`\n\n${message}\n\n`);
+	console.log(`\n${message}\n`);
 	const awsEnvironment = await inquirer.prompt(questions);
   AWS.config.update({
     accessKeyId: awsEnvironment.accessKeyId,

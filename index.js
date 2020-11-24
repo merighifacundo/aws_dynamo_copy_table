@@ -1,10 +1,12 @@
+#!/usr/bin/env node
+
 import askDynamoEnvironment, {askSameEnvironment} from "./src/questions/aws.setup.js";
 import askTableToCopy from "./src/questions/table.picker.js";
 import copyTable from "./src/scripts/copy.table.js";
 
 async function main() {
   try {
-		console.log(`\n\n\nWelcome to AWS DynamoDB copy table Utility developed by Facundo Merighi\n\n`);
+		console.log(`\nWelcome to AWS DynamoDB copy table Utility developed by Facundo Merighi\n`);
 		const environmentSource = await askDynamoEnvironment("Please provide the information of the source AWS account");;
 		const response = await askSameEnvironment();
 		console.log(response.sameEnvironment);
